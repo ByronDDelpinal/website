@@ -23,23 +23,24 @@ const Background = () => (
     <Triangle
       color="tertiaryDark"
       height={['50vh', '20vh']}
-      width={['50vw', '50vw']}
       invertX
+      opacity='0.3'
+      width={['50vw', '50vw']}
     />
 
     <Triangle
       color="primaryDark"
-      height={['25vh', '40vh']}
-      width={['75vw', '60vw']}
       invertX
       invertY
+      height={['25vh', '40vh']}
+      width={['75vw', '60vw']}
     />
 
     <Triangle
       color="backgroundDark"
       height={['25vh', '20vh']}
-      width={['100vw', '100vw']}
       invertY
+      width={['100vw', '100vw']}
     />
   </div>
 );
@@ -105,11 +106,13 @@ const ProjectTag = styled.div`
 
 const Project = ({
   name,
+  title,
   description,
   projectUrl,
   repositoryUrl,
   type,
-  publishedDate,
+  startDate,
+  endDate,
   logo,
 }) => (
   <Card p={0}>
@@ -120,6 +123,9 @@ const Project = ({
             {name}
           </Title>
         </span>
+        <Text width={[1]}>
+          {title}
+        </Text>
         <Text width={[1]} style={{ overflow: 'auto' }}>
           {description}
         </Text>
@@ -133,13 +139,18 @@ const Project = ({
               float: 'right',
             }}
           >
-            <Box mx={1} fontSize={5}>
-              <SocialLink
-                name="Check repository"
-                fontAwesomeIcon="github"
-                url={repositoryUrl}
-              />
-            </Box>
+            {repositoryUrl
+              ? (
+                <Box mx={1} fontSize={5}>
+                  <SocialLink
+                    name="Check repository"
+                    fontAwesomeIcon="github"
+                    url={repositoryUrl}
+                  />
+                </Box>
+              )
+              : null
+            }
             <Box mx={1} fontSize={5}>
               <SocialLink
                 name="See project"
@@ -152,7 +163,7 @@ const Project = ({
             {type}
           </ImageSubtitle>
           <Hide query={MEDIA_QUERY_SMALL}>
-            <ImageSubtitle bg="backgroundDark">{publishedDate}</ImageSubtitle>
+            <ImageSubtitle bg="backgroundDark">{ startDate + (endDate ? ` - ${endDate}` : ' - present')}</ImageSubtitle>
           </Hide>
         </ProjectTag>
       </ImageContainer>
@@ -162,11 +173,13 @@ const Project = ({
 
 Project.propTypes = {
   name: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   projectUrl: PropTypes.string.isRequired,
-  repositoryUrl: PropTypes.string.isRequired,
+  repositoryUrl: PropTypes.string,
   type: PropTypes.string.isRequired,
-  publishedDate: PropTypes.string.isRequired,
+  startDate: PropTypes.string.isRequired,
+  endDate: PropTypes.string,
   logo: PropTypes.shape({
     image: PropTypes.shape({
       src: PropTypes.string,
@@ -185,10 +198,11 @@ const Projects = () => (
             projects {
               id
               name
+              title
               description
               projectUrl
-              repositoryUrl
-              publishedDate(formatString: "YYYY")
+              startDate(formatString: "MM//YYYY")
+              endDate(formatString: "MM//YYYY")
               type
               logo {
                 title

@@ -12,6 +12,7 @@ const Background = () => (
     <Triangle
       color="tertiaryDark"
       height={['35vh', '80vh']}
+      opacity='0.3'
       width={['95vw', '60vw']}
     />
 
@@ -24,16 +25,17 @@ const Background = () => (
     <Triangle
       color="primaryDark"
       height={['25vh', '35vh']}
-      width={['75vw', '60vw']}
       invertX
+      width={['75vw', '60vw']}
     />
 
     <Triangle
       color="tertiaryDark"
       height={['20vh', '20vh']}
-      width={['100vw', '100vw']}
       invertX
       invertY
+      opacity='0.3'
+      width={['100vw', '100vw']}
     />
   </div>
 );
@@ -75,7 +77,7 @@ const LandingPage = () => (
               fontSize={[5, 6, 8]}
               mb={[3, 4, 5]}
             >
-              {`Hello, I'm ${name}!`}
+              {`Hey, I'm ${name}!`}
             </Heading>
 
             <Heading

@@ -27,6 +27,7 @@ const Background = () => (
     <Triangle
       color="tertiaryDark"
       height={['25vh', '20vh']}
+      opacity='0.3'
       width={['100vw', '100vw']}
     />
   </div>

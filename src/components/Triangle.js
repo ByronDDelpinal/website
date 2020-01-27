@@ -1,10 +1,16 @@
 import styled from 'styled-components';
 
 const Triangle = styled.div`
+  height: 0;
   position: absolute;
   width: 0;
-  height: 0;
   z-index: -2;
+
+  ${props => {
+    return props.opacity
+      ? `opacity: ${props.opacity};`
+      : null
+  }}
 
   ${props => {
     const color = props.theme.colors[props.color] || props.color;
@@ -20,7 +26,6 @@ const Triangle = styled.div`
       ? `border-left: ${border}; right: 0;`
       : `border-right: ${border};`;
   }}
-
 
   @media only screen and (min-width: 768px) {
     ${props => {

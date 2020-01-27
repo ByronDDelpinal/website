@@ -18,8 +18,9 @@ const Background = () => (
     <Triangle
       color="tertiaryDark"
       height={['15vh', '10vh']}
-      width={['100vw', '100vw']}
       invertX
+      opacity='0.3'
+      width={['100vw', '100vw']}
     />
 
     <Triangle
@@ -32,9 +33,9 @@ const Background = () => (
     <Triangle
       color="primaryDark"
       height={['40vh', '15vh']}
-      width={['100vw', '100vw']}
       invertX
       invertY
+      width={['100vw', '100vw']}
     />
   </div>
 );

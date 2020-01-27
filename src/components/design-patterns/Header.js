@@ -4,8 +4,8 @@ import { Flex, Image } from 'rebass';
 import styled from 'styled-components';
 import { SectionLinks } from 'react-scroll-section';
 import Fade from 'react-reveal/Fade';
-import RouteLink from './RouteLink';
-import Logo from './Logo/face.png';
+import RouteLink from '../RouteLink';
+import Logo from '../Logo/face.png';
 
 const capitalize = s => s && s[0].toUpperCase() + s.slice(1);
 
@@ -30,18 +30,12 @@ const HomeIcon = styled(Image)`
 const formatLinks = allLinks =>
   Object.entries(allLinks).reduce(
     (acc, [key, value]) => {
-      const isHome = key === 'home';
-      return isHome
-        ? {
-            ...acc,
-            home: value,
-          }
-        : {
-            ...acc,
-            links: [...acc.links, { name: capitalize(key), value }],
-          };
+      return {
+        ...acc,
+        links: [...acc.links, { name: capitalize(key), value }],
+      };
     },
-    { links: [], home: null },
+    { links: [], home: { onClick: () => window.open('/') } },
   );
 
 const Header = () => (
@@ -56,9 +50,6 @@ const Header = () => (
         <SectionLinks>
           {({ allLinks }) => {
             const { home, links } = formatLinks(allLinks);
-
-            console.log(home);
-
             const homeLink = home && (
               <HomeIcon
                 src={Logo}
