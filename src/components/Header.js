@@ -57,8 +57,6 @@ const Header = () => (
           {({ allLinks }) => {
             const { home, links } = formatLinks(allLinks);
 
-            console.log(home);
-
             const homeLink = home && (
               <HomeIcon
                 src={Logo}

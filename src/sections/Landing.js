@@ -10,9 +10,8 @@ import Triangle from '../components/Triangle';
 const Background = () => (
   <div>
     <Triangle
-      color="tertiaryDark"
+      color="backgroundDark"
       height={['35vh', '80vh']}
-      opacity='0.3'
       width={['95vw', '60vw']}
     />
 
@@ -30,11 +29,10 @@ const Background = () => (
     />
 
     <Triangle
-      color="tertiaryDark"
+      color="backgroundDark"
       height={['20vh', '20vh']}
       invertX
       invertY
-      opacity='0.3'
       width={['100vw', '100vw']}
     />
   </div>
@@ -75,7 +73,7 @@ const LandingPage = () => (
               as="h1"
               color="primary"
               fontSize={[5, 6, 8]}
-              mb={[3, 4, 5]}
+              mb={[3, 5]}
             >
               {`Hey, I'm ${name}!`}
             </Heading>
@@ -88,12 +86,12 @@ const LandingPage = () => (
               textAlign="center"
               style={centerHorizontally}
             >
-              <TextLoop interval={5000}>
+              <TextLoop interval={4000}>
                 {roles
                   .sort(() => deterministicBehaviour || Math.random() - 0.5)
                   .map(text => (
-                    <Text width={[300, 500]} key={text}>
-                      {text}
+                    <Text width={[400, 600]} key={text}>
+                      {`I'm a ${text}`}
                     </Text>
                   ))}
               </TextLoop>

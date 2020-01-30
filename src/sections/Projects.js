@@ -14,22 +14,21 @@ import Hide from '../components/Hide';
 const Background = () => (
   <div>
     <Triangle
-      color="secondaryLight"
+      color="primaryDark"
       height={['80vh', '80vh']}
       width={['100vw', '100vw']}
       invertX
     />
 
     <Triangle
-      color="tertiaryDark"
+      color="backgroundDark"
       height={['50vh', '20vh']}
       invertX
-      opacity='0.3'
       width={['50vw', '50vw']}
     />
 
     <Triangle
-      color="primaryDark"
+      color="secondary"
       invertX
       invertY
       height={['25vh', '40vh']}
@@ -49,12 +48,46 @@ const CARD_HEIGHT = '200px';
 
 const MEDIA_QUERY_SMALL = '@media (max-width: 400px)';
 
-const Title = styled(Text)`
+const ProjectCard = styled(Card)`
+  position: relative;
+  height: 200px;
+`;
+
+const ProjectCardFront = styled(Card)`
+  backface-visibility: hidden;
+  height: 100%;
+  transform-style: preserve-3d;
+  width: 100%;
+
+  &:hover {
+    transform: rotateY( 180deg );
+    transition: transform 0.5s;
+  }
+`;
+
+const ProjectCardBack = styled(Card)`
+  backface-visibility: hidden;
+  height: 100%;
+  transform-style: preserve-3d;
+  width: 100%;
+
+  &:hover {
+    transform: rotateY( 180deg );
+    transition: transform 0.5s;
+  }
+`;
+
+const CompanyName = styled(Text)`
   font-size: 14px;
   font-weight: 600;
   text-transform: uppercase;
   display: table;
   border-bottom: ${props => props.theme.colors.primary} 5px solid;
+`;
+
+const JobTitle = styled(Text)`
+  margin-bottom: 5px;
+  font-weight: bold;
 `;
 
 const TextContainer = styled.div`
@@ -115,60 +148,62 @@ const Project = ({
   endDate,
   logo,
 }) => (
-  <Card p={0}>
-    <Flex style={{ height: CARD_HEIGHT }}>
-      <TextContainer>
-        <span>
-          <Title my={2} pb={1}>
-            {name}
-          </Title>
-        </span>
-        <Text width={[1]}>
-          {title}
-        </Text>
-        <Text width={[1]} style={{ overflow: 'auto' }}>
-          {description}
-        </Text>
-      </TextContainer>
+  <ProjectCard p={0}>
+    <ProjectCardFront>
+      <Flex style={{ height: CARD_HEIGHT }}>
+        <TextContainer>
+          <span>
+            <CompanyName my={2} pb={1}>
+              {name}
+            </CompanyName>
+          </span>
+          <JobTitle width={[1]}>
+            {title}
+          </JobTitle>
+          <Text width={[1]} style={{ overflow: 'auto' }}>
+            {description}
+          </Text>
+        </TextContainer>
 
-      <ImageContainer>
-        <ProjectImage src={logo.image.src} alt={logo.title} />
-        <ProjectTag>
-          <Flex
-            style={{
-              float: 'right',
-            }}
-          >
-            {repositoryUrl
-              ? (
-                <Box mx={1} fontSize={5}>
-                  <SocialLink
-                    name="Check repository"
-                    fontAwesomeIcon="github"
-                    url={repositoryUrl}
-                  />
-                </Box>
-              )
-              : null
-            }
-            <Box mx={1} fontSize={5}>
-              <SocialLink
-                name="See project"
-                fontAwesomeIcon="globe"
-                url={projectUrl}
-              />
-            </Box>
-          </Flex>
-          <ImageSubtitle bg="primary" color="white" y="bottom" x="right" round>
-            {type}
-          </ImageSubtitle>
-          <Hide query={MEDIA_QUERY_SMALL}>
-            <ImageSubtitle bg="backgroundDark">{ startDate + (endDate ? ` - ${endDate}` : ' - present')}</ImageSubtitle>
-          </Hide>
-        </ProjectTag>
-      </ImageContainer>
-    </Flex>
-  </Card>
+        <ImageContainer>
+          <ProjectImage src={logo.image.src} alt={logo.title} />
+          <ProjectTag>
+            <Flex
+              style={{
+                float: 'right',
+              }}
+            >
+              {repositoryUrl
+                ? (
+                  <Box mx={1} fontSize={5}>
+                    <SocialLink
+                      name="Check repository"
+                      fontAwesomeIcon="github"
+                      url={repositoryUrl}
+                    />
+                  </Box>
+                )
+                : null
+              }
+              <Box mx={1} fontSize={5}>
+                <SocialLink
+                  name="See project"
+                  fontAwesomeIcon="globe"
+                  url={projectUrl}
+                />
+              </Box>
+            </Flex>
+            <ImageSubtitle bg="primary" color="white" y="bottom" x="right" round>
+              {type}
+            </ImageSubtitle>
+            <Hide query={MEDIA_QUERY_SMALL}>
+              <ImageSubtitle bg="backgroundDark">{ startDate + (endDate ? ` - ${endDate}` : ' - present')}</ImageSubtitle>
+            </Hide>
+          </ProjectTag>
+        </ImageContainer>
+      </Flex>
+    </ProjectCardFront>
+  </ProjectCard>
 );
 
 Project.propTypes = {

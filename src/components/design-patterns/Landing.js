@@ -8,7 +8,7 @@ import Triangle from '../Triangle';
 const Background = () => (
   <div>
     <Triangle
-      color="tertiaryDark"
+      color="primaryDark"
       height={['35vh', '80vh']}
       opacity='0.3'
       width={['95vw', '60vw']}
