@@ -29,8 +29,9 @@ const Helmet = ({ theme = {} }) => (
       }
     `}
     render={data => {
-      const { name, description, profile } = data.contentfulAbout;
-      const title = `${name} Portfolio`;
+      const { profile } = data.contentfulAbout;
+      const title = 'Byron Delpinal | Do. Write. Teach.';
+      const description = 'Byron Delpinal is a software developer and technical leader from Akron, OH that focuses on on creating stable, reliable, and performant web applications.';
 
       return (
         <ReactHelmet htmlAttributes={{ lang: 'en' }}>
