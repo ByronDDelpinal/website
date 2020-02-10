@@ -3,6 +3,8 @@ import { SectionLink } from 'react-scroll-section';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 
+import colors from '../../colors';
+
 const StyledLink = styled.a`
   display: inline-block;
   transition: color 250ms, text-shadow 250ms;
@@ -10,6 +12,7 @@ const StyledLink = styled.a`
   cursor: pointer;
   position: relative;
   text-decoration: none;
+  z-index: 3;
 
   &:after {
     position: absolute;
@@ -35,7 +38,10 @@ const StyledLink = styled.a`
 `;
 
 const MarkdownParagraph = styled.p`
+  background: ${colors.background};
   line-height: 1.5;
+  position: relative;
+  z-index: 1;
 
   &:first-child {
     margin-top: 0em;

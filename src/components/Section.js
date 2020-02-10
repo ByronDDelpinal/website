@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import Slide from 'react-reveal/Slide';
 import LinkAnimated from './LinkAnimated';
 
+import colors from '../../colors';
+
 const SectionContainer = styled.div`
   min-height: 100vh;
   min-width: 320px;
@@ -17,6 +19,10 @@ const SectionContainer = styled.div`
   justify-content: center;
   padding: 5em 1em;
   scroll-behavior: smooth;
+
+  & ${LinkAnimated} {
+    background-color: ${colors.background};
+  }
 `;
 
 const DefaultBackground = () => <div />;

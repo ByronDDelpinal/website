@@ -26,12 +26,6 @@ export const Card = styled(CardRebass).attrs({
   height: 100%;
   position: relative;
   top: 0;
-  transition: all 0.25s;
-
-  &:hover {
-    top: -10px;
-    box-shadow: 0 12px 16px rgba(0, 0, 0, 0.2);
-  }
 `;
 
 export default Card;

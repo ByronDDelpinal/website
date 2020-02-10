@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Image, Text, Flex, Box } from 'rebass';
+import { Image, Text, Flex } from 'rebass';
 import { StaticQuery, graphql } from 'gatsby';
 import styled from 'styled-components';
 import Fade from 'react-reveal/Fade';
 import Section from '../components/Section';
 import { CardContainer, Card } from '../components/Card';
-import SocialLink from '../components/SocialLink';
 import Triangle from '../components/Triangle';
 import ImageSubtitle from '../components/ImageSubtitle';
 import Hide from '../components/Hide';
@@ -48,33 +47,50 @@ const CARD_HEIGHT = '200px';
 
 const MEDIA_QUERY_SMALL = '@media (max-width: 400px)';
 
+const ProjectCardContainer = styled(CardContainer)`
+  width: 100%;
+
+  > div {
+    width: 100%;
+  }
+`;
+
+const ProjectCardContent = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+
+  transition: transform 2s;
+  transform-style: preserve-3d;
+`;
+
 const ProjectCard = styled(Card)`
-  position: relative;
   height: 200px;
+  position: relative;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:hover ${ProjectCardContent} {
+    transform: rotateY(180deg);
+    transition: transform 1s;
+  }
 `;
 
 const ProjectCardFront = styled(Card)`
   backface-visibility: hidden;
-  height: 100%;
-  transform-style: preserve-3d;
+  height: 200px;
+  position: absolute;
   width: 100%;
-
-  &:hover {
-    transform: rotateY( 180deg );
-    transition: transform 0.5s;
-  }
 `;
 
 const ProjectCardBack = styled(Card)`
   backface-visibility: hidden;
-  height: 100%;
-  transform-style: preserve-3d;
+  height: 200px;
+  position: absolute;
+  transform: rotateY(180deg);
   width: 100%;
-
-  &:hover {
-    transform: rotateY( 180deg );
-    transition: transform 0.5s;
-  }
 `;
 
 const CompanyName = styled(Text)`
@@ -141,68 +157,64 @@ const Project = ({
   name,
   title,
   description,
-  projectUrl,
-  repositoryUrl,
+  technologies,
   type,
   startDate,
   endDate,
   logo,
 }) => (
   <ProjectCard p={0}>
-    <ProjectCardFront>
-      <Flex style={{ height: CARD_HEIGHT }}>
-        <TextContainer>
-          <span>
-            <CompanyName my={2} pb={1}>
-              {name}
-            </CompanyName>
-          </span>
-          <JobTitle width={[1]}>
-            {title}
-          </JobTitle>
-          <Text width={[1]} style={{ overflow: 'auto' }}>
-            {description}
-          </Text>
-        </TextContainer>
+    <ProjectCardContent>
+      <ProjectCardFront>
+        <Flex style={{ height: CARD_HEIGHT }}>
+          <TextContainer>
+            <span>
+              <CompanyName my={2} pb={1}>
+                {name}
+              </CompanyName>
+            </span>
+            <JobTitle width={[1]}>{title}</JobTitle>
+            <Text width={[1]} style={{ overflow: 'auto' }}>
+              {description}
+            </Text>
+          </TextContainer>
 
-        <ImageContainer>
-          <ProjectImage src={logo.image.src} alt={logo.title} />
-          <ProjectTag>
-            <Flex
-              style={{
-                float: 'right',
-              }}
-            >
-              {repositoryUrl
-                ? (
-                  <Box mx={1} fontSize={5}>
-                    <SocialLink
-                      name="Check repository"
-                      fontAwesomeIcon="github"
-                      url={repositoryUrl}
-                    />
-                  </Box>
-                )
-                : null
-              }
-              <Box mx={1} fontSize={5}>
-                <SocialLink
-                  name="See project"
-                  fontAwesomeIcon="globe"
-                  url={projectUrl}
-                />
-              </Box>
-            </Flex>
-            <ImageSubtitle bg="primary" color="white" y="bottom" x="right" round>
-              {type}
-            </ImageSubtitle>
-            <Hide query={MEDIA_QUERY_SMALL}>
-              <ImageSubtitle bg="backgroundDark">{ startDate + (endDate ? ` - ${endDate}` : ' - present')}</ImageSubtitle>
-            </Hide>
-          </ProjectTag>
-        </ImageContainer>
-      </Flex>
-    </ProjectCardFront>
+          <ImageContainer style={{height: '200px'}}>
+            <ProjectImage src={logo.image.src} alt={logo.title} />
+            <ProjectTag>
+              <ImageSubtitle
+                bg="primary"
+                color="white"
+                y="bottom"
+                x="right"
+                round
+              >
+                {type}
+              </ImageSubtitle>
+              <Hide query={MEDIA_QUERY_SMALL}>
+                <ImageSubtitle
+                  bg="backgroundDark"
+                  y="top"
+                  x="left"
+                >
+                  {startDate + (endDate ? ` - ${endDate}` : ' - present')}
+                </ImageSubtitle>
+              </Hide>
+            </ProjectTag>
+          </ImageContainer>
+        </Flex>
+      </ProjectCardFront>
+      <ProjectCardBack>
+        <CompanyName mb={1} ml={10} mt={18} pb={1}>
+          Technologies
+        </CompanyName>
+        <ul style={{'margin-top': '0'}}>
+          {technologies.map(technology => (
+            <li style={{'line-height': '1.5'}}>{technology}</li>
+          ))}
+        </ul>
+      </ProjectCardBack>
+    </ProjectCardContent>
   </ProjectCard>
 );
 
@@ -210,8 +222,7 @@ Project.propTypes = {
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  projectUrl: PropTypes.string.isRequired,
-  repositoryUrl: PropTypes.string,
+  technologies: PropTypes.arrayOf(PropTypes.string),
   type: PropTypes.string.isRequired,
   startDate: PropTypes.string.isRequired,
   endDate: PropTypes.string,
@@ -234,8 +245,8 @@ const Projects = () => (
               id
               name
               title
+              technologies
               description
-              projectUrl
               startDate(formatString: "MM//YYYY")
               endDate(formatString: "MM//YYYY")
               type
@@ -250,13 +261,13 @@ const Projects = () => (
         }
       `}
       render={({ contentfulAbout }) => (
-        <CardContainer minWidth="350px">
+        <ProjectCardContainer minWidth="350px">
           {contentfulAbout.projects.map((p, i) => (
-            <Fade bottom delay={i * 200} key={p.id}>
+            <Fade bottom delay={i * 200} key={p.id} width="100%">
               <Project {...p} />
             </Fade>
           ))}
-        </CardContainer>
+        </ProjectCardContainer>
       )}
     />
   </Section.Container>
